@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Flame, Wallet, Wifi, Sun } from "lucide-react";
+import { Wallet, MapPin, TreePine, Calendar } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const filters = [
-  { id: "popular", label: "인기", icon: Flame },
-  { id: "affordable", label: "저렴한", icon: Wallet },
-  { id: "fast-internet", label: "빠른 인터넷", icon: Wifi },
-  { id: "good-weather", label: "좋은 날씨", icon: Sun },
+  { id: "budget", label: "예산별", icon: Wallet },
+  { id: "region", label: "지역별", icon: MapPin },
+  { id: "environment", label: "환경별", icon: TreePine },
+  { id: "season", label: "계절별", icon: Calendar },
 ];
 
 interface QuickFilterTabsProps {
@@ -16,7 +16,7 @@ interface QuickFilterTabsProps {
 }
 
 export function QuickFilterTabs({ onFilterChange }: QuickFilterTabsProps) {
-  const [activeFilter, setActiveFilter] = useState("popular");
+  const [activeFilter, setActiveFilter] = useState("budget");
 
   const handleFilterChange = (value: string) => {
     setActiveFilter(value);

@@ -2,18 +2,6 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 
 const footerLinks = {
-  서비스: [
-    { href: "/cities", label: "도시 둘러보기" },
-    { href: "/ranking", label: "도시 랭킹" },
-    { href: "/community", label: "커뮤니티" },
-    { href: "/meetups", label: "밋업" },
-  ],
-  정보: [
-    { href: "/about", label: "서비스 소개" },
-    { href: "/guide", label: "노마드 가이드" },
-    { href: "/faq", label: "자주 묻는 질문" },
-    { href: "/contact", label: "문의하기" },
-  ],
   법적고지: [
     { href: "/terms", label: "이용약관" },
     { href: "/privacy", label: "개인정보처리방침" },
@@ -24,7 +12,7 @@ export function Footer() {
   return (
     <footer className="border-t bg-muted/30">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="space-y-4">
             <Link href="/" className="text-xl font-bold text-primary">
               노마드코리아

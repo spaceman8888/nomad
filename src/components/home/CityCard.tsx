@@ -1,43 +1,56 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import {
-  Sun,
-  Cloud,
-  CloudSun,
-  Wifi,
-  ThumbsUp,
-  Users,
-  Wind,
-  TrendingUp,
-} from "lucide-react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { TrendingUp, ThumbsUp, ThumbsDown } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { type City, formatCurrencyShort } from "@/data/mock-data";
+import { type City } from "@/data/mock-data";
 
 interface CityCardProps {
   city: City;
 }
 
-function getWeatherIcon(icon: string) {
-  switch (icon) {
-    case "sun":
-      return <Sun className="h-4 w-4 text-yellow-500" />;
-    case "cloud":
-      return <Cloud className="h-4 w-4 text-gray-400" />;
-    case "cloud-sun":
-      return <CloudSun className="h-4 w-4 text-yellow-400" />;
-    default:
-      return <Sun className="h-4 w-4 text-yellow-500" />;
-  }
-}
-
-function getAqiColor(aqi: number) {
-  if (aqi <= 50) return "text-green-500";
-  if (aqi <= 100) return "text-yellow-500";
-  if (aqi <= 150) return "text-orange-500";
-  return "text-red-500";
-}
-
 export function CityCard({ city }: CityCardProps) {
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+  const [likesCount, setLikesCount] = useState(city.likes);
+  const [dislikesCount, setDislikesCount] = useState(city.dislikes);
+
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (liked) {
+      setLiked(false);
+      setLikesCount((prev) => prev - 1);
+    } else {
+      setLiked(true);
+      setLikesCount((prev) => prev + 1);
+      if (disliked) {
+        setDisliked(false);
+        setDislikesCount((prev) => prev - 1);
+      }
+    }
+  };
+
+  const handleDislike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (disliked) {
+      setDisliked(false);
+      setDislikesCount((prev) => prev - 1);
+    } else {
+      setDisliked(true);
+      setDislikesCount((prev) => prev + 1);
+      if (liked) {
+        setLiked(false);
+        setLikesCount((prev) => prev - 1);
+      }
+    }
+  };
+
   return (
     <Link href={`/cities/${city.id}`}>
       <Card className="group overflow-hidden transition-all hover:shadow-lg">
@@ -57,11 +70,6 @@ export function CityCard({ city }: CityCardProps) {
               </Badge>
             )}
           </div>
-
-          <div className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full bg-black/50 px-2 py-1 text-xs text-white">
-            <Users className="h-3 w-3" />
-            <span>{city.currentNomads}명 체류중</span>
-          </div>
         </div>
 
         <CardContent className="p-4">
@@ -72,54 +80,48 @@ export function CityCard({ city }: CityCardProps) {
             <p className="text-sm text-muted-foreground">{city.region}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-                <span className="text-xs font-bold text-primary">
-                  {city.nomadScore}
-                </span>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">노마드 점수</p>
-              </div>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">예산</span>
+              <span className="font-medium">{city.budget}</span>
             </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">환경</span>
+              <span className="font-medium">{city.environment}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">최고 계절</span>
+              <span className="font-medium">{city.bestSeason}</span>
+            </div>
+          </div>
 
-            <div>
-              <p className="font-medium">
-                {formatCurrencyShort(city.monthlyCost)}
-              </p>
-              <p className="text-xs text-muted-foreground">월 생활비</p>
-            </div>
-
-            <div className="flex items-center gap-1">
-              <Wifi className="h-4 w-4 text-blue-500" />
-              <span className="font-medium">{city.internetSpeed}</span>
-              <span className="text-xs text-muted-foreground">Mbps</span>
-            </div>
-
-            <div className="flex items-center gap-1">
-              <ThumbsUp className="h-4 w-4 text-green-500" />
-              <span className="font-medium">{city.recommendRate}%</span>
-              <span className="text-xs text-muted-foreground">추천</span>
-            </div>
+          <div className="mt-3 flex items-center gap-3 border-t pt-3">
+            <button
+              onClick={handleLike}
+              className={`flex items-center gap-1 text-sm transition-colors ${
+                liked
+                  ? "text-blue-500"
+                  : "text-muted-foreground hover:text-blue-500"
+              }`}
+            >
+              <ThumbsUp className={`h-4 w-4 ${liked ? "fill-current" : ""}`} />
+              <span>{likesCount}</span>
+            </button>
+            <button
+              onClick={handleDislike}
+              className={`flex items-center gap-1 text-sm transition-colors ${
+                disliked
+                  ? "text-red-500"
+                  : "text-muted-foreground hover:text-red-500"
+              }`}
+            >
+              <ThumbsDown
+                className={`h-4 w-4 ${disliked ? "fill-current" : ""}`}
+              />
+              <span>{dislikesCount}</span>
+            </button>
           </div>
         </CardContent>
-
-        <CardFooter className="border-t bg-muted/30 px-4 py-3">
-          <div className="flex w-full items-center justify-between text-sm">
-            <div className="flex items-center gap-2">
-              {getWeatherIcon(city.weather.icon)}
-              <span>{city.weather.temp}°C</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Wind className={`h-4 w-4 ${getAqiColor(city.aqi)}`} />
-              <span className={getAqiColor(city.aqi)}>AQI {city.aqi}</span>
-            </div>
-            <Badge variant="outline" className="text-xs">
-              안전 {city.safetyGrade}
-            </Badge>
-          </div>
-        </CardFooter>
       </Card>
     </Link>
   );

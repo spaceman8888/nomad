@@ -1,18 +1,17 @@
+import { Budget, Region, Environment, BestSeason } from '@/types/filters';
+
 export interface City {
   id: number;
   name: string;
-  region: string;
+  region: Region;
   rank: number;
   isHot: boolean;
   image: string;
-  nomadScore: number;
-  monthlyCost: number;
-  internetSpeed: number;
-  recommendRate: number;
-  safetyGrade: string;
-  weather: { icon: string; temp: number };
-  aqi: number;
-  currentNomads: number;
+  budget: Budget;
+  environment: Environment;
+  bestSeason: BestSeason;
+  likes: number;
+  dislikes: number;
 }
 
 export interface Review {
@@ -49,98 +48,80 @@ export const cities: City[] = [
   {
     id: 1,
     name: "제주시",
-    region: "제주특별자치도",
+    region: "제주도",
     rank: 1,
     isHot: true,
     image: "/images/jeju.jpg",
-    nomadScore: 4.2,
-    monthlyCost: 1800000,
-    internetSpeed: 95,
-    recommendRate: 87,
-    safetyGrade: "A",
-    weather: { icon: "sun", temp: 18 },
-    aqi: 45,
-    currentNomads: 23,
+    budget: "200만원 이상",
+    environment: "자연친화",
+    bestSeason: "겨울",
+    likes: 123,
+    dislikes: 12,
   },
   {
     id: 2,
     name: "부산",
-    region: "부산광역시",
+    region: "경상도",
     rank: 2,
     isHot: true,
     image: "/images/busan.jpg",
-    nomadScore: 4.0,
-    monthlyCost: 1600000,
-    internetSpeed: 120,
-    recommendRate: 85,
-    safetyGrade: "A",
-    weather: { icon: "cloud", temp: 15 },
-    aqi: 52,
-    currentNomads: 18,
+    budget: "100~200만원",
+    environment: "도심선호",
+    bestSeason: "여름",
+    likes: 98,
+    dislikes: 8,
   },
   {
     id: 3,
     name: "서울",
-    region: "서울특별시",
+    region: "수도권",
     rank: 3,
     isHot: false,
     image: "/images/seoul.jpg",
-    nomadScore: 3.9,
-    monthlyCost: 2200000,
-    internetSpeed: 150,
-    recommendRate: 82,
-    safetyGrade: "A+",
-    weather: { icon: "cloud-sun", temp: 12 },
-    aqi: 68,
-    currentNomads: 45,
+    budget: "200만원 이상",
+    environment: "코워킹 필수",
+    bestSeason: "가을",
+    likes: 156,
+    dislikes: 23,
   },
   {
     id: 4,
     name: "강릉",
-    region: "강원특별자치도",
+    region: "강원도",
     rank: 4,
     isHot: false,
     image: "/images/gangneung.jpg",
-    nomadScore: 3.8,
-    monthlyCost: 1400000,
-    internetSpeed: 85,
-    recommendRate: 80,
-    safetyGrade: "A",
-    weather: { icon: "sun", temp: 10 },
-    aqi: 38,
-    currentNomads: 12,
+    budget: "100만원 이하",
+    environment: "자연친화",
+    bestSeason: "여름",
+    likes: 67,
+    dislikes: 5,
   },
   {
     id: 5,
     name: "전주",
-    region: "전북특별자치도",
+    region: "전라도",
     rank: 5,
     isHot: false,
     image: "/images/jeonju.jpg",
-    nomadScore: 3.7,
-    monthlyCost: 1300000,
-    internetSpeed: 90,
-    recommendRate: 78,
-    safetyGrade: "A",
-    weather: { icon: "cloud", temp: 14 },
-    aqi: 55,
-    currentNomads: 8,
+    budget: "100만원 이하",
+    environment: "카페작업",
+    bestSeason: "봄",
+    likes: 82,
+    dislikes: 7,
   },
   {
     id: 6,
     name: "대전",
-    region: "대전광역시",
+    region: "충청도",
     rank: 6,
     isHot: false,
     image: "/images/daejeon.jpg",
-    nomadScore: 3.6,
-    monthlyCost: 1500000,
-    internetSpeed: 110,
-    recommendRate: 75,
-    safetyGrade: "A",
-    weather: { icon: "cloud-sun", temp: 13 },
-    aqi: 60,
-    currentNomads: 10,
+    budget: "100~200만원",
+    environment: "도심선호",
+    bestSeason: "가을",
+    likes: 45,
+    dislikes: 4,
   },
 ];
 
@@ -216,18 +197,3 @@ export const stats = {
   reviews: 1200,
   nomads: 890,
 };
-
-export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("ko-KR", {
-    style: "currency",
-    currency: "KRW",
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-
-export function formatCurrencyShort(amount: number): string {
-  if (amount >= 10000) {
-    return `${(amount / 10000).toFixed(0)}만원`;
-  }
-  return formatCurrency(amount);
-}
