@@ -1,0 +1,46 @@
+import { type EmailOtpType } from "@supabase/supabase-js";
+import { type NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const token_hash = searchParams.get("token_hash");
+  const type = searchParams.get("type") as EmailOtpType | null;
+  const code = searchParams.get("code");
+  const next = searchParams.get("next") ?? "/";
+
+  const redirectTo = request.nextUrl.clone();
+  redirectTo.pathname = next;
+  redirectTo.searchParams.delete("token_hash");
+  redirectTo.searchParams.delete("type");
+  redirectTo.searchParams.delete("code");
+  redirectTo.searchParams.delete("next");
+
+  const supabase = await createClient();
+
+  // 이메일 확인 (token_hash 방식)
+  if (token_hash && type) {
+    const { error } = await supabase.auth.verifyOtp({
+      type,
+      token_hash,
+    });
+
+    if (!error) {
+      return NextResponse.redirect(redirectTo);
+    }
+  }
+
+  // OAuth 또는 PKCE 코드 교환 방식
+  if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (!error) {
+      return NextResponse.redirect(redirectTo);
+    }
+  }
+
+  // 에러 발생 시 로그인 페이지로 리다이렉트
+  redirectTo.pathname = "/login";
+  redirectTo.searchParams.set("error", "인증에 실패했습니다");
+  return NextResponse.redirect(redirectTo);
+}

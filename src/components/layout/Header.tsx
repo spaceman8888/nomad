@@ -35,7 +35,9 @@ export function Header() {
             <Search className="h-5 w-5" />
             <span className="sr-only">검색</span>
           </Button>
-          <Button className="hidden md:inline-flex">로그인</Button>
+          <Button asChild className="hidden md:inline-flex">
+            <Link href="/login">로그인</Link>
+          </Button>
           <MobileNav />
         </div>
       </div>
