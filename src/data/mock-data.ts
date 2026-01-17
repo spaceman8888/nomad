@@ -197,3 +197,15 @@ export const stats = {
   reviews: 1200,
   nomads: 890,
 };
+
+export function getCityById(id: number): City | undefined {
+  return cities.find((city) => city.id === id);
+}
+
+export function getReviewsByCityName(cityName: string): Review[] {
+  return reviews.filter((review) => review.cityName === cityName);
+}
+
+export function getMeetupsByCityName(cityName: string): Meetup[] {
+  return meetups.filter((meetup) => meetup.city === cityName);
+}
