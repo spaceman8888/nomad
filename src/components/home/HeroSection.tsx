@@ -1,11 +1,28 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Search, MapPin, MessageSquare, Users } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { stats } from "@/data/mock-data";
 
 export function HeroSection() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-primary/5 to-background py-16 md:py-24">
       <div className="absolute inset-0 bg-[url('/images/hero-pattern.svg')] opacity-5" />
@@ -26,6 +43,9 @@ export function HeroSection() {
               type="search"
               placeholder="도시, 지역 또는 키워드로 검색..."
               className="h-14 rounded-full border-2 pl-12 pr-4 text-lg shadow-lg focus:border-primary"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </div>
 

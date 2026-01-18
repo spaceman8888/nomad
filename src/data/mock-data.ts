@@ -123,6 +123,110 @@ export const cities: City[] = [
     likes: 45,
     dislikes: 4,
   },
+  {
+    id: 7,
+    name: "인천",
+    region: "수도권",
+    rank: 7,
+    isHot: false,
+    image: "/images/incheon.jpg",
+    budget: "100~200만원",
+    environment: "도심선호",
+    bestSeason: "봄",
+    likes: 52,
+    dislikes: 6,
+  },
+  {
+    id: 8,
+    name: "대구",
+    region: "경상도",
+    rank: 8,
+    isHot: false,
+    image: "/images/daegu.jpg",
+    budget: "100만원 이하",
+    environment: "카페작업",
+    bestSeason: "가을",
+    likes: 61,
+    dislikes: 5,
+  },
+  {
+    id: 9,
+    name: "광주",
+    region: "전라도",
+    rank: 9,
+    isHot: false,
+    image: "/images/gwangju.jpg",
+    budget: "100만원 이하",
+    environment: "카페작업",
+    bestSeason: "봄",
+    likes: 48,
+    dislikes: 3,
+  },
+  {
+    id: 10,
+    name: "속초",
+    region: "강원도",
+    rank: 10,
+    isHot: true,
+    image: "/images/sokcho.jpg",
+    budget: "100~200만원",
+    environment: "자연친화",
+    bestSeason: "여름",
+    likes: 89,
+    dislikes: 7,
+  },
+  {
+    id: 11,
+    name: "여수",
+    region: "전라도",
+    rank: 11,
+    isHot: true,
+    image: "/images/yeosu.jpg",
+    budget: "100~200만원",
+    environment: "자연친화",
+    bestSeason: "여름",
+    likes: 95,
+    dislikes: 6,
+  },
+  {
+    id: 12,
+    name: "경주",
+    region: "경상도",
+    rank: 12,
+    isHot: false,
+    image: "/images/gyeongju.jpg",
+    budget: "100만원 이하",
+    environment: "자연친화",
+    bestSeason: "가을",
+    likes: 73,
+    dislikes: 4,
+  },
+  {
+    id: 13,
+    name: "세종",
+    region: "충청도",
+    rank: 13,
+    isHot: false,
+    image: "/images/sejong.jpg",
+    budget: "100~200만원",
+    environment: "코워킹 필수",
+    bestSeason: "봄",
+    likes: 38,
+    dislikes: 2,
+  },
+  {
+    id: 14,
+    name: "서귀포",
+    region: "제주도",
+    rank: 14,
+    isHot: true,
+    image: "/images/seogwipo.jpg",
+    budget: "200만원 이상",
+    environment: "자연친화",
+    bestSeason: "겨울",
+    likes: 112,
+    dislikes: 9,
+  },
 ];
 
 export const reviews: Review[] = [
@@ -208,4 +312,17 @@ export function getReviewsByCityName(cityName: string): Review[] {
 
 export function getMeetupsByCityName(cityName: string): Meetup[] {
   return meetups.filter((meetup) => meetup.city === cityName);
+}
+
+export function searchCities(query: string): City[] {
+  if (!query.trim()) return cities;
+  const q = query.toLowerCase();
+  return cities.filter(
+    (city) =>
+      city.name.toLowerCase().includes(q) ||
+      city.region.toLowerCase().includes(q) ||
+      city.budget.toLowerCase().includes(q) ||
+      city.environment.toLowerCase().includes(q) ||
+      city.bestSeason.toLowerCase().includes(q)
+  );
 }
