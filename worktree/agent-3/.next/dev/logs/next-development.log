@@ -1,4 +1,0 @@
-[00:50:09.903] Server  LOG     ✓ Compiled in 2ms
-[00:50:10.085] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/boyoungchang/Documents/dev/learn/nomad/worktree/agent-3/src/app'
-[00:50:10.086] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, scandir '/Users/boyoungchang/Documents/dev/learn/nomad/worktree/agent-3/src/app'
-[00:50:10.086] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, scandir '/Users/boyoungchang/Documents/dev/learn/nomad/worktree/agent-3/src/app'
